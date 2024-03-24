@@ -15,6 +15,7 @@ import java.util.Set;
 @Data
 @Value
 public class Month {
+    //TODO Refactor to YearMonth?
     LocalDate date;
     BigDecimal savingsGoal;
     Set<RecurringCost> recurringCosts;

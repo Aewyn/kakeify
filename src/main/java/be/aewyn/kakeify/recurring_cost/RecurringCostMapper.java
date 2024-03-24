@@ -2,7 +2,6 @@ package be.aewyn.kakeify.recurring_cost;
 
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 

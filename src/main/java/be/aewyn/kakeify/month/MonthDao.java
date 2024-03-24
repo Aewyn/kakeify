@@ -3,8 +3,8 @@ package be.aewyn.kakeify.month;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Repository
-public interface MonthDao extends JpaRepository<MonthEntity, Date> {
+public interface MonthDao extends JpaRepository<MonthEntity, LocalDate> {
 }

@@ -11,4 +11,8 @@ public interface MonthRepository{
     Optional<Month> findByDate(LocalDate date);
 
     List<Month> findAll();
+
+    Month save(Month monthEntity);
+
+    void delete(Month month);
 }
