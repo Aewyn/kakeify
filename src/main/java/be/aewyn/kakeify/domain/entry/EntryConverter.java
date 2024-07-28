@@ -1,7 +1,9 @@
 package be.aewyn.kakeify.domain.entry;
 
+import be.aewyn.kakeify.domain.month.MonthConverter;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -18,14 +20,17 @@ public abstract class EntryConverter {
         return EntryEntity.builder()
                 .entryType(entry.getEntryType())
                 .amount(entry.getAmount())
+                .month(MonthConverter.toMonthEntity(entry.getMonth()))
                 .build();
     }
 
     public static List<Entry> toEntries(List<EntryEntity> entryEntities) {
-        return entryEntities.stream().map(EntryConverter::toEntry).toList();
+        if (entryEntities != null) return entryEntities.stream().map(EntryConverter::toEntry).toList();
+        return Collections.emptyList();
     }
 
     public static List<EntryEntity> toEntryEntities(List<Entry> entries) {
-        return entries.stream().map(EntryConverter::toEntryEntity).toList();
+        if (entries != null) return entries.stream().map(EntryConverter::toEntryEntity).toList();
+        return Collections.emptyList();
     }
 }

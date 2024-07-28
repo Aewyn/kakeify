@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -14,6 +12,10 @@ import java.util.List;
 @Transactional
 public class MonthService {
     private final MonthRepository monthRepository;
+
+    public Month findById(Long id) {
+        return monthRepository.findById(id);
+    }
 
     public List<Month> findAll(){
         return monthRepository.findAll();
@@ -24,8 +26,6 @@ public class MonthService {
                 .date(createMonthDto.yearMonth())
                 .income(createMonthDto.income())
                 .savingsGoal(createMonthDto.savingsGoal())
-                .recurringCosts(new HashSet<>())
-                .entries(new ArrayList<>())
                 .build();
         return monthRepository.save(month);
     }

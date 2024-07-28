@@ -2,6 +2,8 @@ package be.aewyn.kakeify.domain.recurringcost;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,7 +18,9 @@ public abstract class RecurringCostConverter {
     }
 
     public static Set<RecurringCost> toRecurringCosts(Set<RecurringCostEntity> entities) {
-        return entities.stream().map(RecurringCostConverter::toRecurringCost).collect(Collectors.toSet());
+        if (entities != null)
+            return entities.stream().filter(Objects::nonNull).map(RecurringCostConverter::toRecurringCost).collect(Collectors.toSet());
+        return Collections.emptySet();
     }
 
     public static RecurringCostEntity toRecurringCostEntity(RecurringCost pojo) {
@@ -27,6 +31,9 @@ public abstract class RecurringCostConverter {
     }
 
     public static Set<RecurringCostEntity> toRecurringCostEntities(Set<RecurringCost> pojos) {
-        return pojos.stream().map(RecurringCostConverter::toRecurringCostEntity).collect(Collectors.toSet());
+        if (pojos != null)
+            return pojos.stream().map(RecurringCostConverter::toRecurringCostEntity).collect(Collectors.toSet());
+        return Collections.emptySet();
     }
+
 }

@@ -1,5 +1,7 @@
 package be.aewyn.kakeify.domain.month;
 
+import be.aewyn.kakeify.exceptions.MonthAlreadyExistsException;
+import be.aewyn.kakeify.exceptions.MonthNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,11 +19,29 @@ public class MonthRepository {
     }
 
     public Month save(Month month) {
+        var monthEntity = monthDao.findByDate(LocalDate.of(month.getDate().getYear(), month.getDate().getMonth(), 1));
+        if (monthEntity.isPresent()) {
+            throw new MonthAlreadyExistsException(STR."Month already exists for \{month.getDate()}");
+        }
         return MonthConverter.toMonth(monthDao.save(MonthConverter.toMonthEntity(month)));
     }
 
     public Month findByYearMonth(YearMonth yearMonth) {
         LocalDate date = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
-        return MonthConverter.toMonth(monthDao.findByDate(date));
+        var monthEntity = monthDao.findByDate(date);
+        if (monthEntity.isPresent()) {
+            return MonthConverter.toMonth(monthEntity.get());
+        } else {
+            throw new MonthNotFoundException(STR."Month not found for \{yearMonth}");
+        }
+    }
+
+    public Month findById(Long id) {
+        var monthEntity = monthDao.findById(id);
+        if (monthEntity.isPresent()) {
+            return MonthConverter.toMonth(monthEntity.get());
+        } else {
+            throw new MonthNotFoundException(STR."Month not found with id \{id}");
+        }
     }
 }

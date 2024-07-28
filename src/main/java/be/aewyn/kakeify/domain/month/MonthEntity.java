@@ -4,11 +4,16 @@ import be.aewyn.kakeify.domain.entry.EntryEntity;
 import be.aewyn.kakeify.domain.recurringcost.RecurringCostEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static org.hibernate.annotations.CascadeType.PERSIST;
 
 @Entity
 @Builder
@@ -30,10 +35,11 @@ public class MonthEntity {
     private BigDecimal savingsGoal;
 
     @OneToMany(mappedBy = "id")
-    private Set<RecurringCostEntity> recurringCosts;
+    private Set<RecurringCostEntity> recurringCosts = new HashSet<>();
 
-    @OneToMany(mappedBy = "month", fetch = FetchType.LAZY)
-    private List<EntryEntity> entryEntities;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "month")
+    @Cascade(PERSIST)
+    private List<EntryEntity> entryEntities = new ArrayList<>();
 
     @Column(name = "date")
     private LocalDate date;

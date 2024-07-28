@@ -28,6 +28,6 @@ public class EntryEntity {
     private BigDecimal amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "month_id")
+    @JoinColumn(name = "month_id", referencedColumnName = "id")
     private MonthEntity month;
 }
