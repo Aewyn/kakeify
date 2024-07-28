@@ -13,6 +13,7 @@ import java.util.Set;
 @Builder
 @Data
 public class Month {
+    Long id;
     YearMonth date;
     BigDecimal income;
     BigDecimal savingsGoal;

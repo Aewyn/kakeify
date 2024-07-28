@@ -13,6 +13,7 @@ public abstract class MonthConverter {
 
     public static Month toMonth(MonthEntity monthEntity) {
         return Month.builder()
+                .id(monthEntity.getId())
                 .date(YearMonth.of(monthEntity.getDate().getYear(), monthEntity.getDate().getMonth()))
                 .income(monthEntity.getIncome())
                 .savingsGoal(monthEntity.getSavingsGoal())

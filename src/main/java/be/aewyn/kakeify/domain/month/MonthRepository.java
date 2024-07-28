@@ -4,17 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class MonthRepository {
     private final MonthDao monthDao;
-
-    public Optional<Month> findByDate(LocalDate date) {
-        return monthDao.findById(date).map(MonthConverter::toMonth);
-    }
 
     public List<Month> findAll() {
         return MonthConverter.toMonths(monthDao.findAll());
@@ -24,7 +20,8 @@ public class MonthRepository {
         return MonthConverter.toMonth(monthDao.save(MonthConverter.toMonthEntity(month)));
     }
 
-    public void delete(Month month){
-        monthDao.delete(MonthConverter.toMonthEntity(month));
+    public Month findByYearMonth(YearMonth yearMonth) {
+        LocalDate date = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+        return MonthConverter.toMonth(monthDao.findByDate(date));
     }
 }

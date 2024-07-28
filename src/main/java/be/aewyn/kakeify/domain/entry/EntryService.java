@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public final class EntryServiceImpl {
+public class EntryService {
     private final EntryRepository entryRepository;
 
     public Entry save(Entry entry){

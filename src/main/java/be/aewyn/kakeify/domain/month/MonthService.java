@@ -2,21 +2,18 @@ package be.aewyn.kakeify.domain.month;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MonthService {
     private final MonthRepository monthRepository;
-
-    public Optional<Month> findByDate(LocalDate date) {
-        return monthRepository.findByDate(date);
-    }
 
     public List<Month> findAll(){
         return monthRepository.findAll();
@@ -31,5 +28,9 @@ public class MonthService {
                 .entries(new ArrayList<>())
                 .build();
         return monthRepository.save(month);
+    }
+
+    public Month findByYearMonth(YearMonth yearMonth) {
+        return monthRepository.findByYearMonth(yearMonth);
     }
 }

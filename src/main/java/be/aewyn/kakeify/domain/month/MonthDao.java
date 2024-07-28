@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 
+
 @Repository
-public interface MonthDao extends JpaRepository<MonthEntity, LocalDate> {
+public interface MonthDao extends JpaRepository<MonthEntity, Long> {
+    MonthEntity findByDate(LocalDate date);
 }

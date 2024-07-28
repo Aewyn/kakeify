@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 public record SavedMonthDto(
+        Long id,
         YearMonth yearMonth,
         BigDecimal income,
         BigDecimal savingsGoal,
@@ -17,6 +18,6 @@ public record SavedMonthDto(
 ) {
 
     public static SavedMonthDto createFromMonth(Month month) {
-        return new SavedMonthDto(month.date, month.income, month.savingsGoal, month.recurringCosts, month.entries);
+        return new SavedMonthDto(month.id, month.date, month.income, month.savingsGoal, month.recurringCosts, month.entries);
     }
 }
