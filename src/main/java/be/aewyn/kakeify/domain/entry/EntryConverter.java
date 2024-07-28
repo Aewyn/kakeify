@@ -1,6 +1,5 @@
 package be.aewyn.kakeify.domain.entry;
 
-import be.aewyn.kakeify.domain.month.MonthConverter;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,7 +11,6 @@ public abstract class EntryConverter {
         return Entry.builder()
                 .entryType(entryEntity.getEntryType())
                 .amount(entryEntity.getAmount())
-                .month(MonthConverter.toMonth(entryEntity.getMonth()))
                 .build();
     }
 
@@ -20,7 +18,6 @@ public abstract class EntryConverter {
         return EntryEntity.builder()
                 .entryType(entry.getEntryType())
                 .amount(entry.getAmount())
-                .month(MonthConverter.toMonthEntity(entry.getMonth()))
                 .build();
     }
 

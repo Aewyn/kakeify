@@ -27,7 +27,7 @@ public class EntryEntity {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "month_id")
     private MonthEntity month;
 }

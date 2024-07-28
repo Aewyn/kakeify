@@ -6,15 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Set;
 
 @Builder
 @Data
 public class Month {
-    //TODO Refactor to YearMonth?
-    LocalDate date;
+    YearMonth date;
+    BigDecimal income;
     BigDecimal savingsGoal;
     Set<RecurringCost> recurringCosts;
     List<Entry> entries;

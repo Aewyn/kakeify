@@ -1,6 +1,5 @@
 package be.aewyn.kakeify.domain.entry;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
@@ -13,6 +12,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles({"test"})
 @Testcontainers
@@ -33,28 +34,17 @@ class EntryDaoTest {
     class Container_tests {
         @Test
         void should_succeed_when_checking_if_container_is_created_and_running() {
-            Assertions.assertThat(postgresContainer.isCreated()).isTrue();
-            Assertions.assertThat(postgresContainer.isRunning()).isTrue();
+            assertThat(postgresContainer.isCreated()).isTrue();
+            assertThat(postgresContainer.isRunning()).isTrue();
         }
     }
 
     @Nested
     class EntryDao_tests {
         @Test
-        void should_return_test_values_when_calling_FindAll() {
+        void should_return_test_values_when_calling_findAll() {
             var allEntries = entryDao.findAll();
-            Assertions.assertThat(allEntries).isNotEmpty();
-        }
-
-        @Test
-        void should_throw_exception_when_calling_findById_with_wrong_id() {
-
-        }
-
-        @Test
-        void should_return_entity_when_calling_findById_with_correct_id() {
-            var entry = entryDao.findById(1L);
-
+            assertThat(allEntries).isNotEmpty();
         }
     }
 }

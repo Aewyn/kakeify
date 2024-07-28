@@ -22,9 +22,10 @@ public class MonthService {
         return monthRepository.findAll();
     }
 
-    public Month save(createMonthDto createMonthDto) {
+    public Month save(CreateMonthDto createMonthDto) {
         Month month = Month.builder()
-                .date(createMonthDto.localDate())
+                .date(createMonthDto.yearMonth())
+                .income(createMonthDto.income())
                 .savingsGoal(createMonthDto.savingsGoal())
                 .recurringCosts(new HashSet<>())
                 .entries(new ArrayList<>())
