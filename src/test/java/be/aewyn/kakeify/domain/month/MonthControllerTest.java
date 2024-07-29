@@ -39,6 +39,9 @@ class MonthControllerTest {
 	private MonthDao monthDao;
 
 	@Autowired
+	private EntryDao entryDao;
+
+	@Autowired
 	private MonthService monthService;
 
 	@Autowired
@@ -71,7 +74,7 @@ class MonthControllerTest {
 
 		LOG.info("Saved months.");
 
-//		createEntryFacade.save(CREATE_ENTRY_DTO1);
+		createEntryFacade.save(CREATE_ENTRY_DTO1);
 //		createEntryFacade.save(CREATE_ENTRY_DTO2);
 //		createEntryFacade.save(CREATE_ENTRY_DTO3);
 
@@ -82,6 +85,7 @@ class MonthControllerTest {
 
 	@AfterEach
 	void afterEach() {
+		entryDao.deleteAll();
 		monthDao.deleteAll();
 	}
 
