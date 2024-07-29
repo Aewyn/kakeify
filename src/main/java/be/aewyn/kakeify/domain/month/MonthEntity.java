@@ -13,11 +13,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.hibernate.annotations.CascadeType.PERSIST;
-
 @Entity
 @Builder
 @Getter
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -34,13 +33,12 @@ public class MonthEntity {
     @Column(name = "savings_goal")
     private BigDecimal savingsGoal;
 
+    @Column(name = "date")
+    private LocalDate date;
+
     @OneToMany(mappedBy = "id")
     private Set<RecurringCostEntity> recurringCosts = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "month")
-    @Cascade(PERSIST)
+    @OneToMany(mappedBy = "month")
     private List<EntryEntity> entryEntities = new ArrayList<>();
-
-    @Column(name = "date")
-    private LocalDate date;
 }

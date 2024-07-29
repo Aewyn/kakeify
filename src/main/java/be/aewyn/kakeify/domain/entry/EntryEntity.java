@@ -4,6 +4,7 @@ import be.aewyn.kakeify.domain.month.MonthEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 @Entity
 @Builder
 @Getter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "entries")
@@ -27,7 +29,7 @@ public class EntryEntity {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "month_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "month_id")
     private MonthEntity month;
 }
