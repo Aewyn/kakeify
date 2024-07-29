@@ -1,7 +1,9 @@
 package be.aewyn.kakeify.domain.month;
 
 import be.aewyn.kakeify.domain.createentryfacade.CreateEntryFacade;
+import be.aewyn.kakeify.domain.entry.CreateEntryDto;
 import be.aewyn.kakeify.domain.entry.EntryDao;
+import be.aewyn.kakeify.domain.entry.EntryType;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.*;
 
@@ -30,7 +32,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @ActiveProfiles({ "test" })
-@Transactional
 class MonthControllerTest {
 	private static final Logger LOG = LoggerFactory.getLogger(MonthControllerTest.class);
 
@@ -52,16 +53,31 @@ class MonthControllerTest {
 
 	static RestClient restClient = RestClient.create();
 
+	private static final CreateMonthDto CREATE_MONTH_DTO1 = new CreateMonthDto(YearMonth.of(2024, 7), BigDecimal.TEN, BigDecimal.TWO);
+	private static final CreateMonthDto CREATE_MONTH_DTO2 = new CreateMonthDto(YearMonth.of(2024, 8), BigDecimal.TEN, BigDecimal.TWO);
+	private static final CreateMonthDto CREATE_MONTH_DTO3 = new CreateMonthDto(YearMonth.of(2024, 9), BigDecimal.TEN, BigDecimal.TWO);
+
+	private static final CreateEntryDto CREATE_ENTRY_DTO1 = new CreateEntryDto(EntryType.WANTS, BigDecimal.TWO, YearMonth.of(2024, 7));
+	private static final CreateEntryDto CREATE_ENTRY_DTO2 = new CreateEntryDto(EntryType.WANTS, BigDecimal.TWO, YearMonth.of(2024, 8));
+	private static final CreateEntryDto CREATE_ENTRY_DTO3 = new CreateEntryDto(EntryType.WANTS, BigDecimal.TWO, YearMonth.of(2024, 9));
+	@Autowired
+	private CreateEntryFacade createEntryFacade;
+
 	@BeforeEach
-	public void beforeEach() {
-		CreateMonthDto createMonthDto1 = new CreateMonthDto(YearMonth.of(2024, 7), BigDecimal.TEN, BigDecimal.TWO);
-		CreateMonthDto createMonthDto2 = new CreateMonthDto(YearMonth.of(2024, 8), BigDecimal.TEN, BigDecimal.TWO);
-		CreateMonthDto createMonthDto3 = new CreateMonthDto(YearMonth.of(2024, 9), BigDecimal.TEN, BigDecimal.TWO);
-		monthService.save(createMonthDto1);
-		monthService.save(createMonthDto2);
-		monthService.save(createMonthDto3);
+	public void setUp() {
+		monthService.save(CREATE_MONTH_DTO1);
+		monthService.save(CREATE_MONTH_DTO2);
+		monthService.save(CREATE_MONTH_DTO3);
 
 		LOG.info("Saved months.");
+
+//		createEntryFacade.save(CREATE_ENTRY_DTO1);
+//		createEntryFacade.save(CREATE_ENTRY_DTO2);
+//		createEntryFacade.save(CREATE_ENTRY_DTO3);
+
+		// Saving the entries breaks everything.
+
+		LOG.info("Saved entrie");
 	}
 
 	@AfterEach
@@ -103,6 +119,7 @@ class MonthControllerTest {
 		@Test
 		void should_return_saved_month_when_creating_new_month() {
 			var createMonthDto = new CreateMonthDto(YearMonth.of(2024, 4), BigDecimal.TEN, BigDecimal.TEN);
+
 			var responseEntity = restClient
 					.post()
 					.uri(STR."http://localhost:\{port}/api/months")
@@ -110,6 +127,7 @@ class MonthControllerTest {
 					.contentType(MediaType.APPLICATION_JSON)
 					.retrieve()
 					.toEntity(SavedMonthDto.class);
+
 			assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 			assertThat(responseEntity.getHeaders().getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
 			var savedMonthDto = responseEntity.getBody();

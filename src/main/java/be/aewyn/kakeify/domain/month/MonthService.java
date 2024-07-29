@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -26,6 +28,8 @@ public class MonthService {
                 .date(createMonthDto.yearMonth())
                 .income(createMonthDto.income())
                 .savingsGoal(createMonthDto.savingsGoal())
+                .entries(new ArrayList<>())
+                .recurringCosts(new HashSet<>())
                 .build();
         return monthRepository.save(month);
     }
